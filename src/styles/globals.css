@@ -1,0 +1,415 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Glynt design tokens                                                */
+/*  CleanOS design language (EinPallux/CleanOS, MIT) with the Glynt    */
+/*  fresh-green accent (docs/DESIGN.md §2). White canvas, soft gray    */
+/*  surfaces, bold typography, generous radii, one confident accent.   */
+/* ------------------------------------------------------------------ */
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Neutrals */
+  --cos-background: #ffffff;
+  --cos-foreground: #101013;
+  --cos-surface: #f4f4f6;
+  --cos-surface-2: #e9e9ee;
+  --cos-muted: #6e6e78;
+  --cos-faint: #a4a4ae;
+  --cos-border: #e8e8ec;
+  --cos-hairline: #f0f0f3;
+
+  /* Inverse (premium banners, dark toggles) */
+  --cos-inverse: #17171a;
+  --cos-inverse-foreground: #ffffff;
+
+  /* Accent — Glynt fresh green */
+  --cos-accent: #30c96e;
+  --cos-accent-strong: #1db35c;
+  --cos-accent-soft: #e2f8eb;
+  --cos-accent-foreground: #ffffff;
+
+  /* Status */
+  --cos-success: #2fbf55;
+  --cos-success-soft: #e5f8eb;
+  --cos-danger: #ff3b30;
+  --cos-danger-soft: #ffe9e7;
+  --cos-warning: #ff9f0a;
+  --cos-warning-soft: #fff3df;
+
+  /* Pink — selected day chip highlight */
+  --cos-pink: #fa5fa9;
+  --cos-pink-strong: #f0359b;
+  --cos-pink-soft: #ffe3f0;
+
+  /* Shadows */
+  --cos-shadow-soft: 0 1px 2px rgba(16, 16, 19, 0.04),
+    0 8px 24px -12px rgba(16, 16, 19, 0.1);
+  --cos-shadow-pop: 0 2px 8px rgba(16, 16, 19, 0.06),
+    0 12px 40px -8px rgba(16, 16, 19, 0.18);
+  --cos-shadow-sheet: 0 -12px 48px -8px rgba(16, 16, 19, 0.18);
+  --cos-shadow-fab: 0 6px 16px -4px rgba(29, 179, 92, 0.45),
+    0 12px 32px -8px rgba(29, 179, 92, 0.35);
+}
+
+.dark {
+  --cos-background: #0a0a0c;
+  --cos-foreground: #f5f5f7;
+  --cos-surface: #1a1a1f;
+  --cos-surface-2: #26262d;
+  --cos-muted: #a0a0ab;
+  --cos-faint: #63636e;
+  --cos-border: #27272e;
+  --cos-hairline: #1e1e24;
+
+  --cos-inverse: #f5f5f7;
+  --cos-inverse-foreground: #101013;
+
+  --cos-accent: #3bd47d;
+  --cos-accent-strong: #63e099;
+  --cos-accent-soft: #102b1c;
+  --cos-accent-foreground: #063018;
+
+  --cos-success: #32d15c;
+  --cos-success-soft: #10291a;
+  --cos-danger: #ff453a;
+  --cos-danger-soft: #33150f;
+  --cos-warning: #ffa71e;
+  --cos-warning-soft: #33260e;
+
+  --cos-pink: #ff6cb5;
+  --cos-pink-strong: #ff8ec6;
+  --cos-pink-soft: #331624;
+
+  --cos-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.4),
+    0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --cos-shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.4),
+    0 12px 40px -8px rgba(0, 0, 0, 0.6);
+  --cos-shadow-sheet: 0 -12px 48px -8px rgba(0, 0, 0, 0.6);
+  --cos-shadow-fab: 0 6px 16px -4px rgba(29, 179, 92, 0.5),
+    0 12px 32px -8px rgba(29, 179, 92, 0.4);
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--cos-background);
+  --color-foreground: var(--cos-foreground);
+  --color-surface: var(--cos-surface);
+  --color-surface-2: var(--cos-surface-2);
+  --color-muted: var(--cos-muted);
+  --color-faint: var(--cos-faint);
+  --color-border: var(--cos-border);
+  --color-hairline: var(--cos-hairline);
+  --color-inverse: var(--cos-inverse);
+  --color-inverse-foreground: var(--cos-inverse-foreground);
+  --color-accent: var(--cos-accent);
+  --color-accent-strong: var(--cos-accent-strong);
+  --color-accent-soft: var(--cos-accent-soft);
+  --color-accent-foreground: var(--cos-accent-foreground);
+  --color-success: var(--cos-success);
+  --color-success-soft: var(--cos-success-soft);
+  --color-danger: var(--cos-danger);
+  --color-danger-soft: var(--cos-danger-soft);
+  --color-warning: var(--cos-warning);
+  --color-warning-soft: var(--cos-warning-soft);
+  --color-pink: var(--cos-pink);
+  --color-pink-strong: var(--cos-pink-strong);
+  --color-pink-soft: var(--cos-pink-soft);
+
+  /* Radii — the CleanOS silhouette */
+  --radius-field: 1rem; /* 16px — inputs, small controls   */
+  --radius-row: 1.25rem; /* 20px — list rows, chips          */
+  --radius-card: 1.75rem; /* 28px — cards, tiles              */
+  --radius-sheet: 2.5rem; /* 40px — bottom sheets, screens    */
+
+  /* Shadows */
+  --shadow-soft: var(--cos-shadow-soft);
+  --shadow-pop: var(--cos-shadow-pop);
+  --shadow-sheet: var(--cos-shadow-sheet);
+  --shadow-fab: var(--cos-shadow-fab);
+
+  /* Type */
+  --font-sans: "Inter Variable", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* Easing */
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.5, 1);
+
+  /* Animations */
+  --animate-fade-in: cos-fade-in 0.25s var(--ease-out-quart) both;
+  --animate-fade-out: cos-fade-out 0.2s ease-out both;
+  --animate-sheet-in: cos-sheet-in 0.4s var(--ease-out-quart) both;
+  --animate-sheet-out: cos-sheet-out 0.25s ease-in both;
+  --animate-zoom-in: cos-zoom-in 0.25s var(--ease-spring) both;
+  --animate-zoom-out: cos-zoom-out 0.18s ease-in both;
+  --animate-toast-in: cos-toast-in 0.35s var(--ease-spring) both;
+  --animate-shimmer: cos-shimmer 1.8s linear infinite;
+  --animate-press: cos-press 0.3s var(--ease-out-quart) both;
+}
+
+@keyframes cos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes cos-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes cos-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes cos-sheet-out {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+@keyframes cos-zoom-in {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes cos-zoom-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.96); }
+}
+@keyframes cos-toast-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cos-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@keyframes cos-press {
+  from { transform: scale(0.97); }
+  to { transform: scale(1); }
+}
+@keyframes cos-spoke {
+  from { opacity: 1; }
+  to { opacity: 0.15; }
+}
+@keyframes cos-typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Typography scale — iOS-flavored, bold and confident               */
+/* ------------------------------------------------------------------ */
+
+@utility text-display {
+  font-size: 2.75rem;
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+@utility text-title1 {
+  font-size: 1.75rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.022em;
+}
+@utility text-title2 {
+  font-size: 1.375rem;
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: -0.017em;
+}
+@utility text-title3 {
+  font-size: 1.1875rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+}
+@utility text-headline {
+  font-size: 1.0625rem;
+  line-height: 1.32;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+}
+@utility text-body {
+  font-size: 1.0625rem;
+  line-height: 1.42;
+  font-weight: 400;
+}
+@utility text-callout {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+@utility text-subhead {
+  font-size: 0.9375rem;
+  line-height: 1.38;
+  font-weight: 400;
+}
+@utility text-footnote {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+@utility text-caption {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+
+/* Hide scrollbars but keep scrollability (day strips, chip rails) */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Safe-area helpers for mobile web apps */
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility mb-safe {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+/* Vertical fade mask for wheel pickers */
+@utility mask-wheel {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 28%,
+    black 72%,
+    transparent 100%
+  );
+}
+
+/* Interactive press feedback — the whole app squishes on tap */
+@utility pressable {
+  transition:
+    transform 0.15s var(--ease-out-quart),
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.2s ease;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--cos-border);
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--cos-background);
+    color: var(--cos-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: var(--cos-accent);
+    color: var(--cos-accent-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cos-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Range input (Slider component)                                     */
+/* ------------------------------------------------------------------ */
+
+.cos-range {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.cos-range:focus-visible {
+  outline: none;
+}
+.cos-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--cos-range-fill, var(--cos-accent)) 0%,
+    var(--cos-range-fill, var(--cos-accent)) var(--cos-range-progress, 50%),
+    var(--cos-surface-2) var(--cos-range-progress, 50%),
+    var(--cos-surface-2) 100%
+  );
+}
+.cos-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--cos-surface-2);
+}
+.cos-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--cos-range-fill, var(--cos-accent));
+}
+.cos-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -11px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(16, 16, 19, 0.08);
+  box-shadow:
+    0 1px 2px rgba(16, 16, 19, 0.18),
+    0 4px 12px rgba(16, 16, 19, 0.16);
+  transition: transform 0.15s var(--ease-out-quart);
+}
+.cos-range::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(16, 16, 19, 0.08);
+  box-shadow:
+    0 1px 2px rgba(16, 16, 19, 0.18),
+    0 4px 12px rgba(16, 16, 19, 0.16);
+}
+.cos-range:active::-webkit-slider-thumb {
+  transform: scale(1.08);
+}
+.cos-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--cos-accent);
+  outline-offset: 2px;
+}

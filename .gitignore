@@ -1,0 +1,18 @@
+# deps / build
+node_modules/
+dist/
+dev-dist/
+coverage/
+.vercel/
+
+# local data sources for importers (licensed / large — never committed)
+data-sources/
+
+# playwright
+test-results/
+playwright-report/
+
+# misc
+*.log
+.DS_Store
+*.local
