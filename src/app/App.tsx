@@ -8,6 +8,9 @@ import { OnboardingFlow } from "@/features/onboarding/OnboardingFlow";
 import { TodayScreen } from "@/features/today/TodayScreen";
 import { InsightsScreen } from "@/features/insights/InsightsScreen";
 import { LibraryScreen } from "@/features/library/LibraryScreen";
+import { FoodFormScreen } from "@/features/library/FoodFormScreen";
+import { RecipeFormScreen } from "@/features/library/RecipeFormScreen";
+import { StackScreen } from "@/features/library/StackScreen";
 import { YouScreen } from "@/features/settings/YouScreen";
 
 /** Routes that need a profile; redirects new users to onboarding. */
@@ -42,6 +45,9 @@ export function App() {
             <Route path="/heute" element={<TodayScreen />} />
             <Route path="/insights" element={<InsightsScreen />} />
             <Route path="/bibliothek" element={<LibraryScreen />} />
+            <Route path="/bibliothek/lebensmittel/:id" element={<FoodFormScreen />} />
+            <Route path="/bibliothek/rezept/:id" element={<RecipeFormScreen />} />
+            <Route path="/bibliothek/stack" element={<StackScreen />} />
             <Route path="/du" element={<YouScreen />} />
           </Route>
           <Route path="*" element={<Navigate to="/heute" replace />} />

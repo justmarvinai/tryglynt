@@ -9,6 +9,8 @@ export interface ToastOptions {
   tone?: "default" | "success" | "danger" | "info";
   /** ms before auto-dismiss. */
   duration?: number;
+  /** Glynt extension: inline action pill (e.g. „Rückgängig"). */
+  action?: { label: string; onPress: () => void };
 }
 
 interface ToastItem extends ToastOptions {
@@ -69,12 +71,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           className="pointer-events-none fixed inset-x-5 bottom-6 z-[70] flex flex-col items-center gap-2.5 mb-safe sm:inset-x-auto sm:right-6 sm:items-end"
         >
           {items.map((t) => (
-            <button
+            <div
               key={t.id}
-              type="button"
+              role="status"
               onClick={() => dismiss(t.id)}
               className={cn(
-                "pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-row bg-inverse px-4.5 py-3.5 text-left text-inverse-foreground shadow-pop sm:w-auto sm:min-w-64",
+                "pointer-events-auto flex w-full max-w-sm cursor-pointer items-center gap-3 rounded-row bg-inverse px-4.5 py-3.5 text-left text-inverse-foreground shadow-pop sm:w-auto sm:min-w-64",
                 t.leaving ? "animate-fade-out" : "animate-toast-in"
               )}
             >
@@ -89,7 +91,20 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                   </span>
                 )}
               </span>
-            </button>
+              {t.action != null && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    t.action?.onPress();
+                    dismiss(t.id);
+                  }}
+                  className="pressable shrink-0 rounded-full bg-inverse-foreground/15 px-3.5 py-1.5 text-footnote font-bold"
+                >
+                  {t.action.label}
+                </button>
+              )}
+            </div>
           ))}
         </div>
       </Portal>
