@@ -36,6 +36,92 @@ export const de = {
     noData: "keine Daten",
   },
 
+  onboarding: {
+    slides: [
+      {
+        title: "Mehr als Kalorien",
+        body: "Glynt zeigt dir alle Nährstoffe: Makros, Vitamine und Mineralstoffe — auf einen Blick.",
+      },
+      {
+        title: "Dein persönlicher Bedarf",
+        body: "Aus Alter, Körper und Aktivität berechnet Glynt, was dein Körper täglich braucht.",
+      },
+      {
+        title: "Privat by design",
+        body: "Kein Konto, keine Cloud: Alle deine Daten bleiben auf deinem Gerät.",
+      },
+    ],
+    start: "Los geht's",
+    stepOf: "Schritt {current} von {total}",
+
+    nameTitle: "Wie heißt du?",
+    namePlaceholder: "Dein Name",
+    nameHint: "Dein Name bleibt auf deinem Gerät.",
+
+    sexTitle: "Dein Geschlecht bei Geburt",
+    sexWhyTitle: "Warum fragen wir das?",
+    sexWhyBody:
+      "Grundumsatz und Nährstoff-Referenzwerte sind wissenschaftlich nach biologischem Geschlecht definiert. Die Berechnungsgrundlage kannst du später jederzeit ändern.",
+    sexFemale: "Weiblich",
+    sexMale: "Männlich",
+
+    genderTitle: "Deine Geschlechtsidentität",
+    genderSubtitle: "Optional — hat keinen Einfluss auf die Berechnung.",
+    genderFemale: "Weiblich",
+    genderMale: "Männlich",
+    genderNonbinary: "Nicht-binär",
+    genderDiverse: "Divers",
+    genderSelf: "Selbst beschreiben",
+    genderSelfPlaceholder: "So beschreibst du dich",
+    genderNone: "Keine Angabe",
+
+    birthdayTitle: "Wann bist du geboren?",
+    birthdaySubtitle: "Dein Alter fließt in die Berechnung deines Bedarfs ein.",
+    day: "Tag",
+    month: "Monat",
+    year: "Jahr",
+    months: [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember",
+    ],
+
+    heightTitle: "Wie groß bist du?",
+    weightTitle: "Wie viel wiegst du?",
+    weightSubtitle: "Dein aktuelles Gewicht — du kannst es jederzeit aktualisieren.",
+
+    bodyFatTitle: "Kennst du deinen Körperfettanteil?",
+    bodyFatSubtitle:
+      "Optional. Damit wird dein Grundumsatz noch genauer berechnet (Katch-McArdle-Formel).",
+    bodyFatSkip: "Weiß ich nicht",
+
+    activityTitle: "Wie aktiv bist du?",
+    activitySubtitle: "Alltag und Training zusammen — wähle, was am besten passt.",
+
+    approachTitle: "Was ist dein Ansatz?",
+    approachSubtitle: "Glynt ist keine Diät-App — du entscheidest die Richtung.",
+    approachIntensity: "Intensität",
+
+    computing: "Wir berechnen deinen Bedarf …",
+    revealTitle: "Zeit zu glänzen.",
+    revealSubtitle: "Das braucht dein Körper an einem Tag:",
+    revealEnergy: "Energie",
+    revealMicros: "+ {count} Mikronährstoff-Ziele, personalisiert für dich",
+    revealAdjustHint: "Alles später anpassbar — in deinem Profil.",
+    revealDisclaimer:
+      "Referenzwerte sind wissenschaftliche Richtwerte für gesunde Erwachsene, kein medizinischer Rat. Schwangerschaft und Stillzeit werden aktuell nicht abgedeckt.",
+    finish: "Auf geht's",
+  },
+
   today: {
     title: "Heute",
     emptyTitle: "Noch nichts geloggt",
