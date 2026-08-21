@@ -9,6 +9,8 @@ import {
   sumVectors,
 } from "@/lib/engine/aggregate";
 import { computeTargets } from "@/lib/engine/targets";
+import { computeDay } from "@/lib/engine/day";
+import { computeStreak } from "@/lib/engine/streak";
 import type { Profile, Settings } from "@/lib/db/models";
 import { DEFAULT_GLASS_SIZE_ML, DEFAULT_MEAL_SLOTS, suggestMealSlot } from "@/config/meals";
 import { cmToFtIn, ftInToCm, kgToLb, sodiumMgToSaltG } from "@/config/units";
@@ -266,5 +268,104 @@ describe("meals & units helpers", () => {
     expect(cmToFtIn(180)).toEqual({ ft: 5, inch: 11 });
     expect(ftInToCm(5, 11)).toBeCloseTo(180.3, 1);
     expect(sodiumMgToSaltG(2000)).toBe(5);
+  });
+});
+
+describe("computeDay — honest data & coverage", () => {
+  const targets = computeTargets(profileFixture(), settingsFixture(), REF_DATE);
+
+  it("marks nutrients with no data instead of reporting a gap", () => {
+    const day = computeDay(
+      [
+        {
+          id: "1",
+          date: "2026-06-15",
+          mealId: "lunch",
+          ref: { type: "food", id: "f" },
+          refId: "f",
+          amount: 1,
+          unit: "g",
+          grams: 100,
+          // no vitD key at all → unknown, not zero
+          snapshot: { energy: 500, protein: 20, vitC: 30 },
+          name: "Test",
+          loggedAt: 0,
+        },
+      ],
+      [],
+      targets
+    );
+    const vitD = day.statuses.find((s) => s.id === "vitD");
+    const vitC = day.statuses.find((s) => s.id === "vitC");
+    expect(vitD?.noData).toBe(true);
+    expect(vitC?.noData).toBe(false);
+    expect(day.worstGaps.map((g) => g.id)).not.toContain("vitD");
+    expect(day.microsTracked).toBe(1); // only vitC had data
+  });
+
+  it("computes energy remaining and water from both sources", () => {
+    const day = computeDay(
+      [
+        {
+          id: "1",
+          date: "2026-06-15",
+          mealId: "lunch",
+          ref: { type: "quick" },
+          refId: "",
+          amount: 1,
+          unit: "quick",
+          grams: 0,
+          snapshot: { energy: 600, water: 200 },
+          name: "Q",
+          loggedAt: 0,
+        },
+      ],
+      [{ id: "w", date: "2026-06-15", ml: 500, loggedAt: 0 }],
+      targets
+    );
+    expect(day.energy.consumed).toBe(600);
+    expect(day.energy.remaining).toBe(targets.energyKcal - 600);
+    expect(day.water.consumed).toBe(700);
+  });
+
+  it("flags limits and ULs without shaming goals", () => {
+    const day = computeDay(
+      [
+        {
+          id: "1",
+          date: "2026-06-15",
+          mealId: "lunch",
+          ref: { type: "quick" },
+          refId: "",
+          amount: 1,
+          unit: "quick",
+          grams: 0,
+          snapshot: { energy: 100, sodium: 5000, vitA: 5000 },
+          name: "Salzig",
+          loggedAt: 0,
+        },
+      ],
+      [],
+      targets
+    );
+    const sodium = day.statuses.find((s) => s.id === "sodium");
+    const vitA = day.statuses.find((s) => s.id === "vitA");
+    expect(sodium?.targetType).toBe("limit");
+    expect((sodium?.coverage ?? 0) > 1).toBe(true);
+    expect(vitA?.overUl).toBe(true); // UL 3000 µg exceeded
+  });
+});
+
+describe("computeStreak", () => {
+  it("counts back from today", () => {
+    const dates = new Set(["2026-06-15", "2026-06-14", "2026-06-13", "2026-06-11"]);
+    expect(computeStreak(dates, "2026-06-15")).toBe(3);
+  });
+  it("keeps yesterday's streak alive before today is logged", () => {
+    const dates = new Set(["2026-06-14", "2026-06-13"]);
+    expect(computeStreak(dates, "2026-06-15")).toBe(2);
+  });
+  it("is zero after a missed day", () => {
+    expect(computeStreak(new Set(["2026-06-12"]), "2026-06-15")).toBe(0);
   });
 });

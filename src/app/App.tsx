@@ -6,6 +6,8 @@ import { BootSplash } from "./BootSplash";
 import { TabLayout } from "./TabLayout";
 import { OnboardingFlow } from "@/features/onboarding/OnboardingFlow";
 import { TodayScreen } from "@/features/today/TodayScreen";
+import { DayNutrientsScreen } from "@/features/nutrients/DayNutrientsScreen";
+import { NutrientDetailScreen } from "@/features/nutrients/NutrientDetailScreen";
 import { InsightsScreen } from "@/features/insights/InsightsScreen";
 import { LibraryScreen } from "@/features/library/LibraryScreen";
 import { FoodFormScreen } from "@/features/library/FoodFormScreen";
@@ -43,6 +45,8 @@ export function App() {
             }
           >
             <Route path="/heute" element={<TodayScreen />} />
+            <Route path="/heute/naehrstoffe" element={<DayNutrientsScreen />} />
+            <Route path="/naehrstoff/:id" element={<NutrientDetailScreen />} />
             <Route path="/insights" element={<InsightsScreen />} />
             <Route path="/bibliothek" element={<LibraryScreen />} />
             <Route path="/bibliothek/lebensmittel/:id" element={<FoodFormScreen />} />
