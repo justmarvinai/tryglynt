@@ -51,7 +51,7 @@ const MAX_PER_100G: Partial<Record<NutrientId, number>> = {
   zinc: 20,
   phosphorus: 1600,
   selenium: 2000, // Paranüsse
-  copper: 5,
+  copper: 20, // Leber liegt bei ~14 mg/100 g (USDA)
   manganese: 10,
   iodine: 3000, // Jodsalz
   chloride: 62000, // Salz
