@@ -33,25 +33,44 @@ Guide for any AI agent (and human) developing this repo. Read this before changi
 7. **Engine changes require tests.** `lib/engine` is pure and unit-tested; seed data changes must keep `validate-seed` green.
 8. **BLS data is licensed** — importer ships, data never gets committed ([DATA.md §4](./docs/DATA.md)).
 9. Update CHANGELOG under „Unreleased" with every user-visible change.
+10. **Accessibility is a gate, not a nicety** (D-027): `npm run e2e` runs axe over onboarding, all tabs in both themes and the log sheet. Never dim text with `opacity`; use the `muted`/`faint` tokens. Accent as text → `text-accent-text`; accent as fill → `bg-accent` + `text-accent-foreground`.
 
 ## Commands
 
 ```bash
-npm run dev        # Vite dev server
-npm run build      # production build (includes seed build)
-npm run check      # lint + typecheck + unit tests  ← run before every push
-npm run test       # vitest
-npm run e2e        # playwright
-npm run seed:validate  # food data validator
+npm run dev            # Vite dev server
+npm run build          # production build
+npm run check          # lint + typecheck + unit tests  ← run before every push
+npm run test           # vitest
+npm run e2e            # playwright journeys + axe accessibility audits
+npm run seed:validate  # food data validator on its own
+npm run icons          # regenerate PWA icons from the Glynt mark
+npm run import:usda    # USDA gap-filler  (needs data-sources/, see DATA.md §4)
+npm run import:bls     # BLS importer     (licensed data, never committed)
 ```
 
-(If a command is missing, the milestone that introduces it isn't done yet — see ROADMAP.)
+Both gates must be green before pushing: `npm run check` **and** `npm run e2e`.
 
 ## Git
 
 - Branch for current work: `claude/glynt-nutrition-app-ucj8lk` (push with `git push -u origin <branch>`).
 - Conventional commits: `feat:` `fix:` `docs:` `data:` (seed food data) `chore:` `test:` `refactor:`.
 - Commit per coherent unit; milestone completion = its own commit + push.
+
+## Where things live (quick map)
+
+| Need to change… | Go to |
+|---|---|
+| A nutrient, its German name, unit or info text | `src/config/nutrients.ts` |
+| Target rules (protein/kg, fat %, limits, water) | `src/config/targets.ts` |
+| Activity levels & factors | `src/config/activity.ts` |
+| Reference values (EFSA/NIH) | `src/lib/engine/reference/` |
+| Suggestion weights & thresholds | `src/config/suggestions.ts` |
+| Default meal slots & time windows | `src/config/meals.ts` |
+| Feature flags (OFF, barcode, suggestions, supplements) | `src/config/app.ts` |
+| Any user-visible German string | `src/lib/i18n/de.ts` |
+| Colors, radii, motion | `src/styles/globals.css` |
+| Seed foods | `src/data/foods/categories/*.ts` (+ `AUTHORING.md`) |
 
 ## Environment notes (Claude Code on the web)
 

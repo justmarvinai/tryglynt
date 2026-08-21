@@ -13,7 +13,14 @@
 
 ## Status
 
-**In development** — see [ROADMAP.md](./ROADMAP.md) for milestones.
+**v1 feature-complete** — onboarding, tracking, analysis, suggestions, backup and PWA install all work end to end. Now in iteration; the Capacitor (native) phase starts after v1 is signed off. See [ROADMAP.md](./ROADMAP.md).
+
+| Gate | |
+|---|---|
+| `npm run check` | lint + typecheck + **79 unit tests** (engine, suggestions, food search, backup, seed-data validator) |
+| `npm run e2e` | **13 Playwright journeys** incl. 4 axe audits — zero WCAG 2 AA violations |
+| Bundle | ~173 KB gz entry, vendor-split, fully offline after first load |
+| Food database | 196 curated German-market foods in 16 categories, machine-validated |
 
 ## Documentation
 
