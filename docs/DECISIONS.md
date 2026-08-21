@@ -44,6 +44,37 @@ Standing engineering rule from Marvin: the app must stay **easily editable, adap
 
 Midnight day boundary · Monday week start · kcal primary (kJ secondary) · salt g + sodium mg (×2.5) · dark mode system+toggle · diary snapshots at log time with per-entry recalculate · destructive confirms + Undo for diary deletes · JSON export with merge/replace import + ~30-day backup nudge · desktop renders centered phone-width column · medical disclaimer at onboarding + About · no external runtime requests except Open Food Facts; Inter self-hosted.
 
+## D-027 — Accent tokens split for WCAG AA (2026-08-21)
+
+**Context:** an automated axe audit (WCAG 2 A/AA, e2e/a11y.spec.ts) showed
+white text on the Glynt green reaches only **2.2:1** — far below the 4.5:1
+AA threshold. The same applied to `text-accent` on white, and to CleanOS's
+`muted`/`faint` grays in both themes.
+
+**Decision:**
+- `--cos-accent` stays the vibrant brand green for FILLS (buttons, FAB,
+  progress). Its ink `--cos-accent-foreground` is now dark (8.8:1) instead
+  of white — the standard accessible pattern for bright greens.
+- New `--cos-accent-text` (darker green, 5.4:1 on white) is used wherever
+  the accent appears as TEXT or icons on light surfaces (`text-accent-text`).
+- `--cos-muted` / `--cos-faint` adjusted in both themes so every text token
+  clears 4.5:1 on `bg-background`, `bg-surface` and `bg-surface-2`.
+- Dimming by opacity was removed from the day strip (it dropped future days
+  to 2.3:1); dimming now uses tokens.
+- `user-scalable=no` removed from the viewport meta (pinch-zoom must work);
+  scroll rails are keyboard-focusable.
+
+**Result:** zero axe violations on onboarding, all four tabs (light + dark)
+and the log sheet. The brand look is unchanged — only the ink on green and
+the gray steps moved.
+
+**Supersedes:** the accent-token part of D-016 (the green itself stands).
+
+## D-028 — Dependency additions (2026-08-21)
+
+`zxing-wasm` (barcode fallback, lazily imported) and `@axe-core/playwright`
+(dev-only a11y gate). Both fit the privacy rule: no network, no telemetry.
+
 ---
 
 ## Template for future decisions

@@ -24,7 +24,7 @@ export function AboutScreen() {
       />
       <Screen className="gap-5 pt-2 pb-28">
         <div className="flex flex-col items-center py-4 text-center">
-          <GlyntMark className="size-14 text-accent" />
+          <GlyntMark className="size-14 text-accent-text" />
           <p className="mt-3 text-title2">{APP.name}</p>
           <p className="mt-1 text-subhead text-muted">{t.about.tagline}</p>
           <p className="mt-1 text-footnote text-faint">

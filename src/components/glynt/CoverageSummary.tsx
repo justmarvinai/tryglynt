@@ -29,7 +29,7 @@ export function CoverageSummary({
         onClick={onPress}
         className="pressable flex w-full items-center gap-3 text-left"
       >
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent-text">
           <Sparkles className="size-5" />
         </span>
         <span className="min-w-0 flex-1">

@@ -128,7 +128,7 @@ export function TodayScreen() {
         leading={
           streak > 0 ? (
             <span className="flex items-center gap-1 rounded-full bg-surface px-3 py-1.5 text-footnote font-bold text-muted">
-              <Flame className="size-4 text-accent" />
+              <Flame className="size-4 text-accent-text" />
               {streak}
             </span>
           ) : undefined
@@ -206,7 +206,7 @@ export function TodayScreen() {
                 variant="ghost"
                 size="md"
                 full
-                className="mt-3 text-accent"
+                className="mt-3 text-accent-text"
                 onClick={() => navigate(`/heute/naehrstoffe?date=${activeDate}`)}
               >
                 {t.today.allNutrients} <ChevronRight />

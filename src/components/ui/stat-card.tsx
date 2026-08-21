@@ -10,7 +10,7 @@ export interface StatCardProps extends React.ComponentProps<"div"> {
 
 const tones = {
   default: "text-foreground",
-  accent: "text-accent",
+  accent: "text-accent-text",
   success: "text-success",
   danger: "text-danger",
   pink: "text-pink",

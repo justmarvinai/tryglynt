@@ -10,7 +10,7 @@ export interface CalloutProps
 }
 
 const tones = {
-  info: { box: "bg-accent-soft", icon: "text-accent", Icon: Info },
+  info: { box: "bg-accent-soft", icon: "text-accent-text", Icon: Info },
   success: { box: "bg-success-soft", icon: "text-success", Icon: CheckCircle2 },
   warning: { box: "bg-warning-soft", icon: "text-warning", Icon: AlertTriangle },
   danger: { box: "bg-danger-soft", icon: "text-danger", Icon: OctagonAlert },

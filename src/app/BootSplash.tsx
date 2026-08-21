@@ -4,7 +4,7 @@ import { GlyntMark } from "@/components/glynt/GlyntMark";
 export function BootSplash() {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background">
-      <GlyntMark className="size-16 animate-pulse text-accent" />
+      <GlyntMark className="size-16 animate-pulse text-accent-text" />
     </div>
   );
 }

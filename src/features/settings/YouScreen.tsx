@@ -56,19 +56,19 @@ export function YouScreen() {
         <Section title={t.you.profileSection}>
           <RowGroup>
             <Row
-              leading={<UserRound className="text-accent" />}
+              leading={<UserRound className="text-accent-text" />}
               title={t.you.profile}
               subtitle={t.you.profileSubtitle}
               onPress={() => navigate("/du/profil")}
             />
             <Row
-              leading={<SlidersHorizontal className="text-accent" />}
+              leading={<SlidersHorizontal className="text-accent-text" />}
               title={t.you.targets}
               subtitle={t.you.targetsSubtitle}
               onPress={() => navigate("/du/ziele")}
             />
             <Row
-              leading={<UtensilsCrossed className="text-accent" />}
+              leading={<UtensilsCrossed className="text-accent-text" />}
               title={t.you.mealsWater}
               subtitle={t.you.mealsWaterSubtitle}
               onPress={() => navigate("/du/mahlzeiten")}
@@ -80,7 +80,7 @@ export function YouScreen() {
           <div className="flex flex-col gap-3">
             <div className="rounded-row bg-surface p-4">
               <div className="mb-2.5 flex items-center gap-2.5">
-                <Sun className="size-5 text-accent" />
+                <Sun className="size-5 text-accent-text" />
                 <span className="text-headline">{t.you.theme}</span>
               </div>
               <SegmentedControl
@@ -96,7 +96,7 @@ export function YouScreen() {
             </div>
             <div className="rounded-row bg-surface p-4">
               <div className="mb-2.5 flex items-center gap-2.5">
-                <Ruler className="size-5 text-accent" />
+                <Ruler className="size-5 text-accent-text" />
                 <span className="text-headline">{t.you.units}</span>
               </div>
               <SegmentedControl
@@ -117,13 +117,13 @@ export function YouScreen() {
         <Section title={t.you.dataSection}>
           <RowGroup>
             <Row
-              leading={<Database className="text-accent" />}
+              leading={<Database className="text-accent-text" />}
               title={t.you.data}
               subtitle={t.you.dataSubtitle}
               onPress={() => navigate("/du/daten")}
             />
             <Row
-              leading={<Info className="text-accent" />}
+              leading={<Info className="text-accent-text" />}
               title={t.you.about}
               subtitle={t.you.aboutSubtitle}
               onPress={() => navigate("/du/ueber")}

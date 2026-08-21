@@ -56,6 +56,25 @@ export default defineConfig({
   },
   build: {
     target: "es2022",
+    rollupOptions: {
+      output: {
+        /**
+         * Vendor split so an app update only re-downloads app code —
+         * React/Dexie/date-fns stay cached across releases (PWA).
+         */
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler|react-router)[\\/]/.test(id)) {
+            return "vendor-react";
+          }
+          if (/[\\/]node_modules[\\/](dexie|dexie-react-hooks)[\\/]/.test(id)) {
+            return "vendor-db";
+          }
+          if (/[\\/]node_modules[\\/]date-fns[\\/]/.test(id)) return "vendor-dates";
+          if (/[\\/]node_modules[\\/]lucide-react[\\/]/.test(id)) return "vendor-icons";
+        },
+      },
+    },
   },
   test: {
     environment: "jsdom",

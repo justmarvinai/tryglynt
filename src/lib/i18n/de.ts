@@ -10,6 +10,20 @@ export const de = {
     tagline: "Alle Nährstoffe im Blick.",
   },
 
+  pwa: {
+    updateTitle: "Update verfügbar",
+    updateBody: "Neu laden, um die neueste Version zu nutzen.",
+    updateAction: "Neu laden",
+    offlineReady: "Glynt ist jetzt offline verfügbar",
+    installTitle: "Glynt auf dem Home-Bildschirm",
+    installBody:
+      "Als App installiert startet Glynt schneller — und deine Daten sind sicherer vor automatischer Browser-Bereinigung.",
+    installAction: "Installieren",
+    installLater: "Später",
+    installIosHint:
+      "In Safari: Teilen-Symbol antippen und „Zum Home-Bildschirm“ wählen.",
+  },
+
   nav: {
     today: "Heute",
     insights: "Insights",

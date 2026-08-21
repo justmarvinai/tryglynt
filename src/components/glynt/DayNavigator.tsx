@@ -29,17 +29,27 @@ export function DayNavigator({
             aria-current={isActive ? "date" : undefined}
             className={cn(
               "pressable flex flex-1 flex-col items-center gap-1 rounded-row py-2",
-              isActive ? "bg-inverse text-inverse-foreground" : "hover:bg-surface",
-              isFuture && !isActive && "opacity-40"
+              isActive
+                ? "bg-inverse text-inverse-foreground"
+                : isFuture
+                  ? // Dimmed via a token, not opacity — opacity dropped
+                    // future days below the AA contrast threshold.
+                    "text-muted hover:bg-surface"
+                  : "hover:bg-surface"
             )}
           >
-            <span className="text-caption uppercase opacity-70">
+            <span
+              className={cn(
+                "text-caption uppercase",
+                isActive ? "text-inverse-foreground/80" : "text-muted"
+              )}
+            >
               {weekdayShort(date)}
             </span>
             <span
               className={cn(
                 "flex size-8 items-center justify-center rounded-full text-subhead font-bold tabular-nums",
-                isToday && !isActive && "bg-accent-soft text-accent"
+                isToday && !isActive && "bg-accent-soft text-accent-text"
               )}
             >
               {dayOfMonth(date)}

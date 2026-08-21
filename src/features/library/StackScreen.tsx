@@ -94,7 +94,7 @@ export function StackScreen() {
                 return (
                   <Row
                     key={item.id}
-                    leading={<Pill className="text-accent" />}
+                    leading={<Pill className="text-accent-text" />}
                     title={food?.name ?? "—"}
                     subtitle={formatPortion(item.amount, item.unit, item.grams)}
                     trailing="none"

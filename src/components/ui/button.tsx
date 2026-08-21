@@ -19,7 +19,7 @@ export const buttonVariants = cva(
         ghost: "text-foreground hover:bg-surface",
         danger: "bg-danger text-white hover:opacity-90",
         "danger-soft": "bg-danger-soft text-danger hover:opacity-85",
-        link: "h-auto rounded-none p-0 text-accent underline-offset-4 hover:underline",
+        link: "h-auto rounded-none p-0 text-accent-text underline-offset-4 hover:underline",
       },
       size: {
         sm: "h-9 px-4 text-[0.9375rem] [&_svg]:size-4",

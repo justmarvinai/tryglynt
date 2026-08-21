@@ -132,7 +132,7 @@ export function Calendar({
                   ? cn(tones[tone], "font-bold")
                   : cn(
                       "text-foreground hover:bg-surface",
-                      isToday && "font-bold text-accent"
+                      isToday && "font-bold text-accent-text"
                     )
               )}
             >

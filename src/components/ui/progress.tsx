@@ -11,7 +11,7 @@ const barTones: Record<Tone, string> = {
 };
 
 const ringTones: Record<Tone, string> = {
-  accent: "text-accent",
+  accent: "text-accent-text",
   success: "text-success",
   danger: "text-danger",
   pink: "text-pink",

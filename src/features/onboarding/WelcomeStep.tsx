@@ -7,7 +7,7 @@ import { GlyntMark } from "@/components/glynt/GlyntMark";
 import { t } from "@/lib/i18n";
 
 const slideIcons = [
-  { icon: <ScanSearch />, tint: "bg-accent-soft text-accent" },
+  { icon: <ScanSearch />, tint: "bg-accent-soft text-accent-text" },
   { icon: <Leaf />, tint: "bg-success-soft text-success" },
   { icon: <ShieldCheck />, tint: "bg-pink-soft text-pink-strong" },
 ];
@@ -18,7 +18,7 @@ export function WelcomeStep({ onStart }: { onStart: () => void }) {
   return (
     <Screen className="flex min-h-dvh flex-col pt-safe">
       <div className="flex items-center gap-2.5 pt-6">
-        <GlyntMark className="size-8 text-accent" />
+        <GlyntMark className="size-8 text-accent-text" />
         <span className="text-title3">{t.app.name}</span>
       </div>
 

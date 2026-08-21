@@ -55,8 +55,8 @@ export function MealSection({
           />
         ))}
         <Row
-          leading={<Plus className="text-accent" />}
-          title={<span className="text-accent">{t.common.add}</span>}
+          leading={<Plus className="text-accent-text" />}
+          title={<span className="text-accent-text">{t.common.add}</span>}
           trailing="none"
           onPress={onAdd}
         />

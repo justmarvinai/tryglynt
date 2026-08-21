@@ -17,7 +17,7 @@ const sizes = {
 };
 
 const palettes = [
-  "bg-accent-soft text-accent",
+  "bg-accent-soft text-accent-text",
   "bg-success-soft text-success",
   "bg-pink-soft text-pink-strong",
   "bg-warning-soft text-warning",

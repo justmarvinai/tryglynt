@@ -187,7 +187,7 @@ export function InsightsScreen() {
             </section>
 
             {/* Recap */}
-            <section className="mt-4 rounded-card bg-accent-soft p-5 text-accent">
+            <section className="mt-4 rounded-card bg-accent-soft p-5 text-accent-text">
               <div className="flex items-center gap-2.5">
                 <Sparkles className="size-5" />
                 <h2 className="text-title3">{t.insights.recapTitle}</h2>
@@ -221,7 +221,7 @@ export function InsightsScreen() {
         {/* Weight journal */}
         <section className="mt-4 rounded-card bg-surface p-5">
           <div className="flex items-center gap-3">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent-text">
               <Scale className="size-5" />
             </span>
             <div className="min-w-0 flex-1">

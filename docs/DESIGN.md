@@ -20,20 +20,26 @@ Single-token swap of the CleanOS accent. Success stays its own (very close) gree
 
 ```css
 :root {
-  --cos-accent:            #30c96e;   /* Glynt green */
-  --cos-accent-strong:     #1db35c;   /* pressed / emphasis */
+  --cos-accent:            #30c96e;   /* Glynt green — FILLS only */
+  --cos-accent-strong:     #23b25e;   /* pressed / emphasis */
   --cos-accent-soft:       #e2f8eb;   /* tinted backgrounds */
-  --cos-accent-foreground: #ffffff;
-  --cos-shadow-fab: 0 6px 16px -4px rgba(29,179,92,.45), 0 12px 32px -8px rgba(29,179,92,.35);
+  --cos-accent-foreground: #05301a;   /* ink ON the green fill (8.8:1) */
+  --cos-accent-text:       #0f7a3d;   /* accent as TEXT on light (5.4:1) */
 }
 .dark {
   --cos-accent:            #3bd47d;
-  --cos-accent-strong:     #63e099;   /* dark mode lightens strong (CleanOS pattern) */
+  --cos-accent-strong:     #63e099;
   --cos-accent-soft:       #102b1c;
-  --cos-accent-foreground: #063018;   /* dark ink on bright green for AA in dark mode chips */
-  --cos-shadow-fab: 0 6px 16px -4px rgba(29,179,92,.5), 0 12px 32px -8px rgba(29,179,92,.4);
+  --cos-accent-foreground: #062a16;
+  --cos-accent-text:       #4ede8d;   /* bright green already clears AA on dark */
 }
 ```
+
+**Three accent tokens, three jobs** (D-027): `bg-accent` fills (buttons,
+FAB, progress) · `text-accent-foreground` is the ink on those fills ·
+`text-accent-text` is the accent as text/icons on light surfaces. White on
+the brand green is only 2.2:1, so fills carry dark ink — the standard
+accessible treatment for a bright green, and it looks sharp.
 
 Usage rules: accent = primary action, FAB, active nav item, focus, links, "covered" progress. Limits (Zucker/gesättigt/Salz) render neutral-gray progress that turns `warning` past 100 % — **never** danger-red shaming. UL exceedance uses `warning` with an explanatory sheet.
 
@@ -74,4 +80,6 @@ All follow CleanOS tokens/motion; stat numbers always `tabular-nums`.
 
 ## 6. States & accessibility bar
 
-Empty/loading/error/offline designed for every surface (skeletons for async, Callout for OFF-offline). Reduced motion honored (`prefers-reduced-motion` → no springs, fades only). Focus-visible everywhere (CleanOS default), labels on every icon button, AA contrast in both themes (accent-on-white reserved for large/bold elements per CleanOS practice; text-on-accent always white/ink per token). Screen-reader: rings/bars carry aria values („Vitamin C: 80 % des Tagesziels").
+Empty/loading/error/offline designed for every surface (skeletons for async, Callout for OFF-offline). Reduced motion honored (`prefers-reduced-motion` → no springs, fades only). Focus-visible everywhere (CleanOS default), labels on every icon button, pinch-zoom never disabled, scroll rails keyboard-reachable. Screen-reader: rings/bars carry aria values („Vitamin C: 80 % des Tagesziels").
+
+**AA is enforced, not assumed:** `e2e/a11y.spec.ts` runs axe-core (WCAG 2 A/AA + 2.1) over onboarding, all four tabs in light *and* dark, and the log sheet. Every text token clears 4.5:1 on `background`, `surface` and `surface-2`; dimming uses tokens, never `opacity` (D-027).

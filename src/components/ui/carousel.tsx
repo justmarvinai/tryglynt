@@ -56,6 +56,9 @@ export function Carousel({
         ref={scrollRef}
         onScroll={onScroll}
         className="scrollbar-none flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain"
+        tabIndex={0}
+        data-scroll-rail
+        role="group"
       >
         {slides.map((slide, i) => (
           <div

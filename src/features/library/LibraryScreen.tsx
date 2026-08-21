@@ -139,7 +139,7 @@ export function LibraryScreen() {
             <>
               <RowGroup>
                 <Row
-                  leading={<Pill className="text-accent" />}
+                  leading={<Pill className="text-accent-text" />}
                   title={t.library.stack}
                   subtitle={t.library.stackSubtitle}
                   onPress={() => navigate("/bibliothek/stack")}

@@ -35,7 +35,7 @@ const icons = {
   default: null,
   success: <CheckCircle2 className="size-5 text-success" />,
   danger: <OctagonAlert className="size-5 text-danger" />,
-  info: <Info className="size-5 text-accent" />,
+  info: <Info className="size-5 text-accent-text" />,
 };
 
 /** Wrap your app (or a subtree) once; then call `useToast().toast({...})`. */

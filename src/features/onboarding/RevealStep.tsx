@@ -49,7 +49,7 @@ export function RevealStep({
   if (phase === "computing") {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-background px-8">
-        <GlyntMark className="size-16 animate-pulse text-accent" />
+        <GlyntMark className="size-16 animate-pulse text-accent-text" />
         <p className="text-body text-muted">{t.onboarding.computing}</p>
       </div>
     );
@@ -62,7 +62,7 @@ export function RevealStep({
         <p className="mt-2 text-subhead text-muted">{t.onboarding.revealSubtitle}</p>
 
         <div className="mt-8 rounded-card bg-surface p-6 text-center">
-          <div className="text-display text-accent">
+          <div className="text-display text-accent-text">
             <EnergyCount value={targets.energyKcal} />
           </div>
           <p className="mt-1 text-subhead text-muted">
@@ -86,7 +86,7 @@ export function RevealStep({
           />
         </div>
 
-        <div className="mt-6 flex items-center gap-3 rounded-row bg-accent-soft px-4 py-3.5 text-accent">
+        <div className="mt-6 flex items-center gap-3 rounded-row bg-accent-soft px-4 py-3.5 text-accent-text">
           <Sparkles className="size-5 shrink-0" />
           <p className="text-subhead font-semibold">
             {fmt(t.onboarding.revealMicros, {

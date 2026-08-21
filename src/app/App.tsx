@@ -1,24 +1,51 @@
-import type { ReactNode } from "react";
+import { Suspense, lazy, type ReactNode } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { ToastProvider } from "@/components/ui/toast";
 import { useProfile } from "@/lib/db/repo/appRepo";
 import { BootSplash } from "./BootSplash";
+import { PwaPrompts } from "./PwaPrompts";
 import { TabLayout } from "./TabLayout";
 import { OnboardingFlow } from "@/features/onboarding/OnboardingFlow";
 import { TodayScreen } from "@/features/today/TodayScreen";
-import { DayNutrientsScreen } from "@/features/nutrients/DayNutrientsScreen";
-import { NutrientDetailScreen } from "@/features/nutrients/NutrientDetailScreen";
-import { InsightsScreen } from "@/features/insights/InsightsScreen";
-import { LibraryScreen } from "@/features/library/LibraryScreen";
-import { FoodFormScreen } from "@/features/library/FoodFormScreen";
-import { RecipeFormScreen } from "@/features/library/RecipeFormScreen";
-import { StackScreen } from "@/features/library/StackScreen";
-import { YouScreen } from "@/features/settings/YouScreen";
-import { ProfileEditScreen } from "@/features/settings/ProfileEditScreen";
-import { TargetsEditScreen } from "@/features/settings/TargetsEditScreen";
-import { MealsEditScreen } from "@/features/settings/MealsEditScreen";
-import { DataScreen } from "@/features/settings/DataScreen";
-import { AboutScreen } from "@/features/settings/AboutScreen";
+const DayNutrientsScreen = lazy(() =>
+  import("@/features/nutrients/DayNutrientsScreen").then((m) => ({ default: m.DayNutrientsScreen }))
+);
+const NutrientDetailScreen = lazy(() =>
+  import("@/features/nutrients/NutrientDetailScreen").then((m) => ({ default: m.NutrientDetailScreen }))
+);
+const InsightsScreen = lazy(() =>
+  import("@/features/insights/InsightsScreen").then((m) => ({ default: m.InsightsScreen }))
+);
+const LibraryScreen = lazy(() =>
+  import("@/features/library/LibraryScreen").then((m) => ({ default: m.LibraryScreen }))
+);
+const FoodFormScreen = lazy(() =>
+  import("@/features/library/FoodFormScreen").then((m) => ({ default: m.FoodFormScreen }))
+);
+const RecipeFormScreen = lazy(() =>
+  import("@/features/library/RecipeFormScreen").then((m) => ({ default: m.RecipeFormScreen }))
+);
+const StackScreen = lazy(() =>
+  import("@/features/library/StackScreen").then((m) => ({ default: m.StackScreen }))
+);
+const YouScreen = lazy(() =>
+  import("@/features/settings/YouScreen").then((m) => ({ default: m.YouScreen }))
+);
+const ProfileEditScreen = lazy(() =>
+  import("@/features/settings/ProfileEditScreen").then((m) => ({ default: m.ProfileEditScreen }))
+);
+const TargetsEditScreen = lazy(() =>
+  import("@/features/settings/TargetsEditScreen").then((m) => ({ default: m.TargetsEditScreen }))
+);
+const MealsEditScreen = lazy(() =>
+  import("@/features/settings/MealsEditScreen").then((m) => ({ default: m.MealsEditScreen }))
+);
+const DataScreen = lazy(() =>
+  import("@/features/settings/DataScreen").then((m) => ({ default: m.DataScreen }))
+);
+const AboutScreen = lazy(() =>
+  import("@/features/settings/AboutScreen").then((m) => ({ default: m.AboutScreen }))
+);
 
 /** Routes that need a profile; redirects new users to onboarding. */
 function RequireProfile({ children }: { children: ReactNode }) {
@@ -39,13 +66,16 @@ function OnboardingGate() {
 export function App() {
   return (
     <ToastProvider>
+      <PwaPrompts />
       <BrowserRouter>
         <Routes>
           <Route path="/onboarding" element={<OnboardingGate />} />
           <Route
             element={
               <RequireProfile>
-                <TabLayout />
+                <Suspense fallback={<BootSplash />}>
+                  <TabLayout />
+                </Suspense>
               </RequireProfile>
             }
           >

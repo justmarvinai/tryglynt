@@ -15,8 +15,11 @@
   --cos-foreground: #101013;
   --cos-surface: #f4f4f6;
   --cos-surface-2: #e9e9ee;
-  --cos-muted: #6e6e78;
-  --cos-faint: #a4a4ae;
+  /* muted/faint are real text colors, so both clear WCAG AA (4.5:1) on
+     the white canvas AND on bg-surface — CleanOS's lighter grays did not
+     (docs/DESIGN.md §6). Hierarchy is preserved, just with less spread. */
+  --cos-muted: #5f5f6a;
+  --cos-faint: #6c6c76;
   --cos-border: #e8e8ec;
   --cos-hairline: #f0f0f3;
 
@@ -24,11 +27,16 @@
   --cos-inverse: #17171a;
   --cos-inverse-foreground: #ffffff;
 
-  /* Accent — Glynt fresh green */
+  /* Accent — Glynt fresh green.
+     `accent` fills (buttons, FAB, bars); `accent-foreground` is the ink
+     ON that fill; `accent-text` is the accessible green for text/icons on
+     light surfaces. White on #30c96e is only 2.2:1, so the fill carries
+     dark ink instead (8.8:1) and text uses the darker green (5.4:1). */
   --cos-accent: #30c96e;
-  --cos-accent-strong: #1db35c;
+  --cos-accent-strong: #23b25e;
   --cos-accent-soft: #e2f8eb;
-  --cos-accent-foreground: #ffffff;
+  --cos-accent-foreground: #05301a;
+  --cos-accent-text: #0f7a3d;
 
   /* Status */
   --cos-success: #2fbf55;
@@ -58,8 +66,8 @@
   --cos-foreground: #f5f5f7;
   --cos-surface: #1a1a1f;
   --cos-surface-2: #26262d;
-  --cos-muted: #a0a0ab;
-  --cos-faint: #63636e;
+  --cos-muted: #b4b4bf;
+  --cos-faint: #90909a;
   --cos-border: #27272e;
   --cos-hairline: #1e1e24;
 
@@ -69,7 +77,9 @@
   --cos-accent: #3bd47d;
   --cos-accent-strong: #63e099;
   --cos-accent-soft: #102b1c;
-  --cos-accent-foreground: #063018;
+  --cos-accent-foreground: #062a16;
+  /* On the dark canvas the bright green already clears AA for text. */
+  --cos-accent-text: #4ede8d;
 
   --cos-success: #32d15c;
   --cos-success-soft: #10291a;
@@ -107,6 +117,7 @@
   --color-accent-strong: var(--cos-accent-strong);
   --color-accent-soft: var(--cos-accent-soft);
   --color-accent-foreground: var(--cos-accent-foreground);
+  --color-accent-text: var(--cos-accent-text);
   --color-success: var(--cos-success);
   --color-success-soft: var(--cos-success-soft);
   --color-danger: var(--cos-danger);
@@ -327,6 +338,12 @@
   ::selection {
     background: var(--cos-accent);
     color: var(--cos-accent-foreground);
+  }
+
+  /* Scroll rails (chips, carousels) must be keyboard-reachable. */
+  [data-scroll-rail]:focus-visible {
+    outline: 2px solid var(--cos-accent);
+    outline-offset: 2px;
   }
 
   :focus-visible {

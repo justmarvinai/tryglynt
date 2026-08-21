@@ -222,7 +222,7 @@ export function NutrientDetailScreen() {
                       title={row.name}
                       subtitle={row.portionLabel}
                       value={formatAmount(row.amount, def.unit, def.decimals)}
-                      trailing={<Plus className="size-5 text-accent" />}
+                      trailing={<Plus className="size-5 text-accent-text" />}
                       onPress={() =>
                         row.foodId && openPortion({ kind: "food", foodId: row.foodId })
                       }
@@ -235,7 +235,7 @@ export function NutrientDetailScreen() {
             {/* Info */}
             <section className="mt-6 rounded-card bg-surface p-5">
               <div className="flex items-center gap-2.5">
-                <Info className="size-5 text-accent" />
+                <Info className="size-5 text-accent-text" />
                 <h2 className="text-title3">{t.nutrients.whatFor}</h2>
               </div>
               <p className="mt-2 text-body leading-relaxed text-muted">{def.info}</p>

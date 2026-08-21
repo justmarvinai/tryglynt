@@ -34,7 +34,7 @@ export function SuggestionCard({
           {suggestion.portionLabel} · {formatAmount(suggestion.energyKcal, "kcal", 0)}
         </p>
         {label && (
-          <p className="mt-2.5 text-footnote font-semibold text-accent">
+          <p className="mt-2.5 text-footnote font-semibold text-accent-text">
             {fmt(t.suggestions.covers, {
               pct: formatNumber(label.percent, 0),
               nutrient: label.nutrient,
@@ -78,7 +78,7 @@ export function SuggestionRail({
   return (
     <section className={cn("rounded-card bg-surface p-5", className)}>
       <div className="flex items-center gap-3">
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-row bg-accent-soft text-accent-text">
           <Sparkles className="size-5" />
         </span>
         <div className="min-w-0 flex-1">
