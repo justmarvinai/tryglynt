@@ -1,10 +1,12 @@
 import * as React from "react";
 import { useNavigate } from "react-router";
-import { NotebookPen, Plus, Star, UtensilsCrossed, Zap } from "lucide-react";
+import { Barcode, Globe, NotebookPen, Plus, Star, UtensilsCrossed, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Callout } from "@/components/ui/callout";
 import { Chip } from "@/components/ui/chip";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SearchField } from "@/components/ui/search-field";
+import { Spinner } from "@/components/ui/spinner";
 import { Sheet } from "@/components/ui/sheet";
 import { useToast } from "@/components/ui/toast";
 import type { Food, Recipe } from "@/lib/db/models";
@@ -18,6 +20,9 @@ import { suggestMealSlot } from "@/config/meals";
 import { fmt, t } from "@/lib/i18n";
 import { useUiStore } from "@/stores/uiStore";
 import { FoodResultRow, per100Subtitle } from "./FoodResultRow";
+import { BarcodeSheet } from "./BarcodeSheet";
+import { FEATURES } from "@/config/app";
+import { OffError, cacheOffFood, searchOff } from "@/lib/connectors/openFoodFacts";
 
 type Tab = "recent" | "favorites" | "mine" | "recipes";
 
@@ -46,13 +51,46 @@ export function LogSheet() {
 
   const [query, setQuery] = React.useState("");
   const [tab, setTab] = React.useState<Tab>("recent");
+  const [scanOpen, setScanOpen] = React.useState(false);
+  const [offResults, setOffResults] = React.useState<Food[] | null>(null);
+  const [offState, setOffState] = React.useState<
+    "idle" | "loading" | "offline" | "error"
+  >("idle");
 
   React.useEffect(() => {
     if (!open) {
       setQuery("");
       setTab("recent");
+      setOffResults(null);
+      setOffState("idle");
     }
   }, [open]);
+
+  /** Online brand search — debounced, user-triggered by typing (D-008). */
+  const runOffSearch = React.useCallback(async (term: string) => {
+    setOffState("loading");
+    try {
+      setOffResults(await searchOff(term));
+      setOffState("idle");
+    } catch (error) {
+      setOffResults(null);
+      setOffState(
+        error instanceof OffError && error.reason === "offline" ? "offline" : "error"
+      );
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!FEATURES.openFoodFacts || !open) return;
+    const term = query.trim();
+    if (term.length < 3) {
+      setOffResults(null);
+      setOffState("idle");
+      return;
+    }
+    const timer = window.setTimeout(() => void runOffSearch(term), 550);
+    return () => window.clearTimeout(timer);
+  }, [query, open, runOffSearch]);
 
   const foodById = React.useMemo(() => {
     const map = new Map<string, Food>();
@@ -121,6 +159,12 @@ export function LogSheet() {
       tone: "success",
       action: { label: t.common.undo, onPress: () => void deleteEntry(entry.id) },
     });
+  };
+
+  /** Caching first means the portion sheet and diary work offline later. */
+  const openOffFood = async (food: Food) => {
+    const cached = await cacheOffFood(food);
+    openPortion({ kind: "food", foodId: cached.id });
   };
 
   const favoriteItems = React.useMemo(() => {
@@ -234,6 +278,11 @@ export function LogSheet() {
           <Button size="sm" variant="soft" onClick={openQuickAdd}>
             <Zap /> {t.log.quickAdd}
           </Button>
+          {FEATURES.barcode && (
+            <Button size="sm" variant="soft" onClick={() => setScanOpen(true)}>
+              <Barcode /> {t.log.scan}
+            </Button>
+          )}
           <Button
             size="sm"
             variant="soft"
@@ -286,8 +335,53 @@ export function LogSheet() {
           ) : (
             tabContent[tab]
           )}
+
+          {/* Open Food Facts: branded products, online only (D-008) */}
+          {FEATURES.openFoodFacts && searching && (
+            <div className="mt-2">
+              <div className="mb-2 flex items-center gap-2 px-1">
+                <Globe className="size-4 text-faint" />
+                <p className="text-caption uppercase tracking-wide text-faint">
+                  {t.log.offTab}
+                </p>
+                {offState === "loading" && <Spinner className="size-4" />}
+              </div>
+
+              {offState === "offline" && <Callout tone="info">{t.log.offOffline}</Callout>}
+              {offState === "error" && <Callout tone="warning">{t.log.offError}</Callout>}
+
+              {offResults && offResults.length > 0 && (
+                <div className="flex flex-col gap-2.5">
+                  {offResults.map((food) => (
+                    <FoodResultRow
+                      key={food.id}
+                      name={food.name}
+                      subtitle={`${food.brand ? `${food.brand} · ` : ""}${per100Subtitle(
+                        food.per100.energy,
+                        food.isLiquid
+                      )}`}
+                      onPress={() => void openOffFood(food)}
+                    />
+                  ))}
+                  <p className="px-1 text-caption text-faint">{t.log.offHint}</p>
+                </div>
+              )}
+              {offResults && offResults.length === 0 && offState === "idle" && (
+                <p className="px-1 text-subhead text-muted">{t.log.offEmpty}</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
+
+      <BarcodeSheet
+        open={scanOpen}
+        onOpenChange={setScanOpen}
+        onFound={(food) => {
+          closeLog();
+          openPortion({ kind: "food", foodId: food.id });
+        }}
+      />
     </Sheet>
   );
 }

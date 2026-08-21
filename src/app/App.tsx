@@ -14,6 +14,11 @@ import { FoodFormScreen } from "@/features/library/FoodFormScreen";
 import { RecipeFormScreen } from "@/features/library/RecipeFormScreen";
 import { StackScreen } from "@/features/library/StackScreen";
 import { YouScreen } from "@/features/settings/YouScreen";
+import { ProfileEditScreen } from "@/features/settings/ProfileEditScreen";
+import { TargetsEditScreen } from "@/features/settings/TargetsEditScreen";
+import { MealsEditScreen } from "@/features/settings/MealsEditScreen";
+import { DataScreen } from "@/features/settings/DataScreen";
+import { AboutScreen } from "@/features/settings/AboutScreen";
 
 /** Routes that need a profile; redirects new users to onboarding. */
 function RequireProfile({ children }: { children: ReactNode }) {
@@ -53,6 +58,11 @@ export function App() {
             <Route path="/bibliothek/rezept/:id" element={<RecipeFormScreen />} />
             <Route path="/bibliothek/stack" element={<StackScreen />} />
             <Route path="/du" element={<YouScreen />} />
+            <Route path="/du/profil" element={<ProfileEditScreen />} />
+            <Route path="/du/ziele" element={<TargetsEditScreen />} />
+            <Route path="/du/mahlzeiten" element={<MealsEditScreen />} />
+            <Route path="/du/daten" element={<DataScreen />} />
+            <Route path="/du/ueber" element={<AboutScreen />} />
           </Route>
           <Route path="*" element={<Navigate to="/heute" replace />} />
         </Routes>
