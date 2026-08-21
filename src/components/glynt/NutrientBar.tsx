@@ -10,11 +10,14 @@ import { formatAmount, formatNumber, t } from "@/lib/i18n";
 export function NutrientBar({
   status,
   compact = false,
+  /** "amount" shows „12 g / 25", "percent" shows „48 %" (multi-day averages). */
+  display = "amount",
   onPress,
   className,
 }: {
   status: NutrientStatus;
   compact?: boolean;
+  display?: "amount" | "percent";
   onPress?: () => void;
   className?: string;
 }) {
@@ -46,14 +49,20 @@ export function NutrientBar({
           {compact ? (def?.shortName ?? def?.name) : def?.name}
         </span>
         <span className="shrink-0 text-footnote tabular-nums text-muted">
-          {status.noData
-            ? t.common.noData
-            : formatAmount(status.amount, def?.unit ?? "g", def?.decimals ?? 0)}
-          {status.target != null && (
-            <span className="text-faint">
-              {" / "}
-              {formatNumber(status.target, def?.decimals ?? 0)}
-            </span>
+          {status.noData ? (
+            t.common.noData
+          ) : display === "percent" ? (
+            `${formatNumber(pct, 0)} %`
+          ) : (
+            <>
+              {formatAmount(status.amount, def?.unit ?? "g", def?.decimals ?? 0)}
+              {status.target != null && (
+                <span className="text-faint">
+                  {" / "}
+                  {formatNumber(status.target, def?.decimals ?? 0)}
+                </span>
+              )}
+            </>
           )}
         </span>
       </div>

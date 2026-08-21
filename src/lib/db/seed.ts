@@ -4,7 +4,7 @@
  * are re-put on version bumps (stable ids → updates in place).
  */
 
-import { db, normalizeName } from "./db";
+import { db, searchKey } from "./db";
 import type { Food } from "./models";
 
 const SEED_STAMP = 0; // deterministic timestamps for seed rows
@@ -23,7 +23,7 @@ export async function seedIfNeeded(
       source: "seed" as const,
       kind: seed.kind ?? "food",
       name: seed.name,
-      nameNormalized: normalizeName(`${seed.name} ${seed.brand ?? ""}`),
+      nameNormalized: searchKey(`${seed.name} ${seed.brand ?? ""}`),
       brand: seed.brand,
       category: file.category,
       per100: seed.n,

@@ -61,6 +61,28 @@ export function normalizeName(name: string): string {
     .trim();
 }
 
+/** German ASCII transliteration: ä→ae, ö→oe, ü→ue, ß→ss. */
+function transliterateDe(name: string): string {
+  return name
+    .toLowerCase()
+    .replaceAll("ä", "ae")
+    .replaceAll("ö", "oe")
+    .replaceAll("ü", "ue")
+    .replaceAll("ß", "ss")
+    .trim();
+}
+
+/**
+ * Search haystack stored on foods/recipes. Carries BOTH German spellings
+ * so „Hühnerei", „huhnerei" and „huehnerei" all match — Germans type
+ * umlauts either way. Sorting still works: the plain form comes first.
+ */
+export function searchKey(name: string): string {
+  const plain = normalizeName(name);
+  const ascii = transliterateDe(name);
+  return ascii !== plain ? `${plain} ${ascii}` : plain;
+}
+
 export function newId(): string {
   return crypto.randomUUID();
 }

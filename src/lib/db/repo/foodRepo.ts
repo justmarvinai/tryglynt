@@ -3,7 +3,7 @@
  */
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { db, newId, normalizeName } from "@/lib/db/db";
+import { db, newId, searchKey } from "@/lib/db/db";
 import type { Food, Recipe, RecipeIngredient } from "@/lib/db/models";
 import { scaleVector, sumVectors } from "@/lib/engine/aggregate";
 import type { NutrientVector } from "@/lib/engine/types";
@@ -32,7 +32,7 @@ export async function createUserFood(input: FoodInput): Promise<Food> {
     ...input,
     id: newId(),
     source: "user",
-    nameNormalized: normalizeName(`${input.name} ${input.brand ?? ""}`),
+    nameNormalized: searchKey(`${input.name} ${input.brand ?? ""}`),
     createdAt: now,
     updatedAt: now,
   };
@@ -43,7 +43,7 @@ export async function createUserFood(input: FoodInput): Promise<Food> {
 export async function updateUserFood(id: string, input: FoodInput): Promise<void> {
   await db.foods.update(id, {
     ...input,
-    nameNormalized: normalizeName(`${input.name} ${input.brand ?? ""}`),
+    nameNormalized: searchKey(`${input.name} ${input.brand ?? ""}`),
     updatedAt: Date.now(),
   });
 }
@@ -77,7 +77,7 @@ export async function saveRecipe(
   const recipe: Recipe = {
     id: id ?? newId(),
     name: input.name,
-    nameNormalized: normalizeName(input.name),
+    nameNormalized: searchKey(input.name),
     servings: Math.max(1, input.servings),
     ingredients: input.ingredients,
     createdAt: id ? ((await db.recipes.get(id))?.createdAt ?? now) : now,

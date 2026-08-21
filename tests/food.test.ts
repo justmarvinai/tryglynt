@@ -7,7 +7,7 @@ import {
   unitOptionsFor,
 } from "@/lib/food/portions";
 import type { Food } from "@/lib/db/models";
-import { normalizeName } from "@/lib/db/db";
+import { searchKey } from "@/lib/db/db";
 
 function food(name: string, over: Partial<Food> = {}): Food {
   return {
@@ -15,7 +15,7 @@ function food(name: string, over: Partial<Food> = {}): Food {
     source: "seed",
     kind: "food",
     name,
-    nameNormalized: normalizeName(name),
+    nameNormalized: searchKey(name),
     category: "obst",
     per100: { energy: 100 },
     portions: [{ label: "1 Stück", grams: 120 }],
@@ -48,6 +48,15 @@ describe("search", () => {
   it("requires every term to match", () => {
     expect(matchScore(items[0], ["banane", "chips"])).toBeNull();
     expect(matchScore(items[1], ["banane", "chips"])).not.toBeNull();
+  });
+
+  it("matches German umlaut spellings both ways", () => {
+    const list = [food("Hühnerei (gekocht)"), food("Grünkohl"), food("Müsli")];
+    expect(searchItems(list, "huehnerei").map((f) => f.name)).toEqual(["Hühnerei (gekocht)"]);
+    expect(searchItems(list, "hühnerei").map((f) => f.name)).toEqual(["Hühnerei (gekocht)"]);
+    expect(searchItems(list, "huhnerei").map((f) => f.name)).toEqual(["Hühnerei (gekocht)"]);
+    expect(searchItems(list, "gruenkohl").map((f) => f.name)).toEqual(["Grünkohl"]);
+    expect(searchItems(list, "muesli").map((f) => f.name)).toEqual(["Müsli"]);
   });
 
   it("is diacritics- and case-insensitive", () => {

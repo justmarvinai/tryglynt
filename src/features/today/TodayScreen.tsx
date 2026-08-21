@@ -21,16 +21,21 @@ import { DayNavigator } from "@/components/glynt/DayNavigator";
 import { EnergyRing } from "@/components/glynt/EnergyRing";
 import { MealSection } from "@/components/glynt/MealSection";
 import { NutrientBar } from "@/components/glynt/NutrientBar";
+import { SuggestionRail } from "@/components/glynt/SuggestionCard";
 import { WaterCard } from "@/components/glynt/WaterCard";
 import { FEATURES } from "@/config/app";
 import { addDaysISO, formatDayTitle, todayISO } from "@/lib/dates";
 import { useSettings } from "@/lib/db/repo/appRepo";
-import { copyEntries } from "@/lib/db/repo/diaryRepo";
+import { copyEntries, deleteEntry } from "@/lib/db/repo/diaryRepo";
 import { addWater, logRegimen, removeLastWater, useRegimen } from "@/lib/db/repo/trackingRepo";
 import type { NutrientStatus } from "@/lib/engine/day";
 import { fmt, t } from "@/lib/i18n";
 import { useUiStore } from "@/stores/uiStore";
 import { useDayData } from "./useDayData";
+import { useSuggestions } from "./useSuggestions";
+import { addFoodEntry } from "@/lib/db/repo/diaryRepo";
+import { suggestMealSlot } from "@/config/meals";
+import type { Suggestion } from "@/lib/engine/suggestions";
 
 /** Macro bars shown under the ring, in this order. */
 const MACRO_IDS = ["protein", "carbs", "fat", "fiber"] as const;
@@ -45,8 +50,10 @@ export function TodayScreen() {
   const setActiveDate = useUiStore((s) => s.setActiveDate);
   const openLog = useUiStore((s) => s.openLog);
   const openEntryEdit = useUiStore((s) => s.openEntryEdit);
+  const openPortion = useUiStore((s) => s.openPortion);
 
   const { loading, entries, day, streak } = useDayData(activeDate);
+  const suggestions = useSuggestions(day);
 
   const [menuMealId, setMenuMealId] = React.useState<string | null>(null);
   const [dayMenuOpen, setDayMenuOpen] = React.useState(false);
@@ -59,6 +66,29 @@ export function TodayScreen() {
     for (const s of day?.statuses ?? []) map.set(s.id, s);
     return map;
   }, [day]);
+
+  /** One-tap log from a suggestion card, at the suggested portion. */
+  const logSuggestion = async (suggestion: Suggestion) => {
+    const mealId =
+      suggestMealSlot(slots, new Date().getHours())?.id ?? slots[0]?.id ?? "snacks";
+    const entry = await addFoodEntry({
+      food: suggestion.food,
+      date: activeDate,
+      mealId,
+      amount: suggestion.amount,
+      unit: suggestion.unit,
+      grams: suggestion.grams,
+    });
+    toast({
+      title: t.log.added,
+      description: fmt(t.log.addedTo, {
+        name: suggestion.food.name,
+        meal: slots.find((s) => s.id === mealId)?.name ?? mealId,
+      }),
+      tone: "success",
+      action: { label: t.common.undo, onPress: () => void deleteEntry(entry.id) },
+    });
+  };
 
   const copyFromYesterday = async (mealId?: string) => {
     const count = await copyEntries({
@@ -189,6 +219,14 @@ export function TodayScreen() {
               day={day}
               onPress={() => navigate(`/heute/naehrstoffe?date=${activeDate}`)}
               onNutrientPress={(id) => navigate(`/naehrstoff/${id}`)}
+            />
+
+            {/* Gap-closing suggestions (D-007) */}
+            <SuggestionRail
+              className="mt-4"
+              suggestions={suggestions}
+              onLog={(s) => void logSuggestion(s)}
+              onOpen={(s) => openPortion({ kind: "food", foodId: s.food.id })}
             />
 
             {/* Water */}

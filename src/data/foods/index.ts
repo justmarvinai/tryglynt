@@ -7,7 +7,7 @@
 
 import type { SeedCategoryFile } from "./types";
 
-export const SEED_VERSION = 1;
+export const SEED_VERSION = 2;
 
 const modules = import.meta.glob<{ [key: string]: SeedCategoryFile | unknown }>(
   "./categories/*.ts"
